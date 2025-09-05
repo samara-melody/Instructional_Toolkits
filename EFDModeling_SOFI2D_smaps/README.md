@@ -1,4 +1,4 @@
-# This is an instructive toy example for running SOFI2D (https://gitlab.kit.edu/kit/gpi/ag/software/sofi2d) through Slurm
+This is an instructive toy example for running SOFI2D (https://gitlab.kit.edu/kit/gpi/ag/software/sofi2d) through Slurm
 
 1. Use the python notebook **1_build_models+aquisition_files** to generate a simple layered model (Vp, Vs, and density) and define the acquisition geometry (sources and receivers). Once the inset plots look correct, export the models, sources, and receiver information to their respective folders at the end of the notebook.
 
