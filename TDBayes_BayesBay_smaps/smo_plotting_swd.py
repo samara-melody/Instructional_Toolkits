@@ -187,7 +187,7 @@ def plot_parameters(forward_vp, forward_rho,
 
 
 
-def plot_vs_depth_posteriors(depth_prior, vmax, vmin_prior, vmax_prior, vs_min, vs_max, vs_position, n_dimensions_min, n_dimensions_max,
+def plot_vs_depth_posteriors(depth_prior, depthpltmax, vmax, vmin_prior, vmax_prior, vs_min, vs_max, vs_position, n_dimensions_min, n_dimensions_max,
     sampled_thickness, sampled_vs, statistics_vs, interp_depths, sampled_voronoi_nuclei, Voronoi1D, scale_vs=2, interf_bins=50, velocity_model=None):
     
     ncols = 4 + n_dimensions_max - n_dimensions_min
@@ -214,7 +214,7 @@ def plot_vs_depth_posteriors(depth_prior, vmax, vmin_prior, vmax_prior, vs_min, 
     ax[0].set_xlabel("Vs [km/s]")
     ax[0].set_ylabel("Depth [km]")
     ax[0].legend().set_visible(False)
-    ax[0].set_ylim(vmax, 0)
+    ax[0].set_ylim(depthpltmax, 0)
     ax[0].set_xlim(vs_min.min(), vs_max.max())
     ax[0].grid()
 
@@ -228,7 +228,8 @@ def plot_vs_depth_posteriors(depth_prior, vmax, vmin_prior, vmax_prior, vs_min, 
     
     Voronoi1D.plot_interface_hist(sampled_voronoi_nuclei, bins=interf_bins, color='b', alpha=0.5, ec='w', ax=ax[2]);
     ax[2].set_ylim(*ax[0].get_ylim())
-    ax[2].set_xlim(0,25)
+    ax[2].set_xlim(0,30)
+    ax[2].set_xlabel(f"Posterior for\nall interface\nsolutions")
 
     # Calculate interface histograms based on no. of dimensions per solution
     for e, i in enumerate(range(n_dimensions_min,n_dimensions_max+1),start=3):
@@ -239,7 +240,7 @@ def plot_vs_depth_posteriors(depth_prior, vmax, vmin_prior, vmax_prior, vs_min, 
         ax[e].tick_params(labelleft=False)
         ax[e].set_ylabel('')
         ax[e].set_ylim(*ax[0].get_ylim())
-        ax[e].set_xlim(0,25)
+        ax[e].set_xlim(0,30)
   
     plt.tight_layout()
 
@@ -295,7 +296,7 @@ def get_subplot_layout(n_subplots):
     cols = int(np.ceil(n_subplots / rows))
     return rows, cols
 
-def plot_chains(inversion, Voronoi1D, interp_depths, vmin, vmax, vs_min, vs_max, velocity_model=None):
+def plot_chains(inversion, Voronoi1D, interp_depths, depthpltmax, vmin, vmax, vs_min, vs_max, velocity_model=None):
     n_chains = len(inversion.chains)
     rows, cols = get_subplot_layout(n_chains)
     fig, axes = plt.subplots(rows, cols, figsize=(10, 15), sharey=True)
@@ -336,6 +337,7 @@ def plot_chains(inversion, Voronoi1D, interp_depths, vmin, vmax, vs_min, vs_max,
     for ax in axes_flat[n_chains:]:
         ax.axis('off')
 
+    ax.set_ylim(depthpltmax,0)
     plt.tight_layout()
     plt.show()
 
